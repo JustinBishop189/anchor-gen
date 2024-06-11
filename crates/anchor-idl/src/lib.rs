@@ -13,6 +13,7 @@ pub use instruction::*;
 pub use program::*;
 pub use state::*;
 pub use typedef::*;
+use types::IdlType;
 
 /// Version of anchor-idl.
 pub const GEN_VERSION: Option<&str> = option_env!("CARGO_PKG_VERSION");
@@ -40,5 +41,6 @@ pub fn ty_to_rust_type(ty: &IdlType) -> String {
         IdlType::Vec(inner) => format!("Vec<{}>", ty_to_rust_type(inner)),
         IdlType::Array(ty, size) => format!("[{}; {}]", ty_to_rust_type(ty), size),
         IdlType::Defined(name) => name.to_string(),
+        _ => panic!("Unsupported type: {:?}", ty),
     }
 }
